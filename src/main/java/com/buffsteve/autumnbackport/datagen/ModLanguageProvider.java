@@ -2,13 +2,25 @@ package com.buffsteve.autumnbackport.datagen;
 
 import com.buffsteve.autumnbackport.AutumnBackport;
 import com.buffsteve.autumnbackport.registry.ModBlocks;
+import com.buffsteve.autumnbackport.registry.ModEntities;
+import com.buffsteve.autumnbackport.registry.ModItems;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 import net.minecraft.data.PackOutput;
+import net.minecraft.world.item.DyeColor;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 
 /** English names. Use the same names as vanilla 26.3. */
 public class ModLanguageProvider extends LanguageProvider {
     public ModLanguageProvider(PackOutput output) {
         super(output, AutumnBackport.MODID, "en_us");
+    }
+
+    /** "light_blue" -> "Light Blue" */
+    private static String displayName(DyeColor color) {
+        return Arrays.stream(color.getName().split("_"))
+                .map(word -> Character.toUpperCase(word.charAt(0)) + word.substring(1))
+                .collect(Collectors.joining(" "));
     }
 
     @Override
@@ -26,5 +38,31 @@ public class ModLanguageProvider extends LanguageProvider {
         addBlock(ModBlocks.POPLAR_TRAPDOOR, "Poplar Trapdoor");
         addBlock(ModBlocks.POPLAR_PRESSURE_PLATE, "Poplar Pressure Plate");
         addBlock(ModBlocks.POPLAR_BUTTON, "Poplar Button");
+        // Wall signs share the standing sign's name (same as vanilla), so they don't get their own line.
+        addBlock(ModBlocks.POPLAR_SIGN, "Poplar Sign");
+        addBlock(ModBlocks.POPLAR_HANGING_SIGN, "Poplar Hanging Sign");
+        addItem(ModItems.POPLAR_BOAT, "Poplar Boat");
+        addItem(ModItems.POPLAR_CHEST_BOAT, "Poplar Boat with Chest");
+        addBlock(ModBlocks.RED_POPLAR_LEAVES, "Red Poplar Leaves");
+        addBlock(ModBlocks.ORANGE_POPLAR_LEAVES, "Orange Poplar Leaves");
+        addBlock(ModBlocks.YELLOW_POPLAR_LEAVES, "Yellow Poplar Leaves");
+        addBlock(ModBlocks.POPLAR_SAPLING, "Poplar Sapling");
+        addBlock(ModBlocks.POTTED_POPLAR_SAPLING, "Potted Poplar Sapling");
+        addBlock(ModBlocks.SHELF_MUSHROOM, "Shelf Mushroom");
+        addBlock(ModBlocks.RED_SHRUB, "Red Shrub");
+        addBlock(ModBlocks.LEAF_LITTER, "Leaf Litter");
+        add("biome.minecraft.dappled_forest", "Dappled Forest");
+        addBlock(ModBlocks.STRAW_BED, "Straw Bed");
+        add("stat.minecraft.sleep_in_straw_bed", "Times Slept in a Straw Bed");
+        addEntityType(ModEntities.CUSHION, "Cushion");
+
+        for (DyeColor color : DyeColor.values()) {
+            String name = displayName(color);
+            addBlock(ModBlocks.WOOL_STAIRS.get(color), name + " Wool Stairs");
+            addBlock(ModBlocks.WOOL_SLABS.get(color), name + " Wool Slab");
+            addBlock(ModBlocks.CONCRETE_STAIRS.get(color), name + " Concrete Stairs");
+            addBlock(ModBlocks.CONCRETE_SLABS.get(color), name + " Concrete Slab");
+            addItem(ModItems.CUSHIONS.get(color), name + " Cushion");
+        }
     }
 }

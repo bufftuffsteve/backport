@@ -12,6 +12,10 @@
     "minecraft:poplar_door",
     "minecraft:poplar_trapdoor",
     "minecraft:poplar_pressure_plate",
-    "minecraft:poplar_button"
+    "minecraft:poplar_button",
+    "minecraft:poplar_sign",
+    "minecraft:poplar_wall_sign",
+    "minecraft:poplar_hanging_sign",
+    "minecraft:poplar_wall_hanging_sign"
   ]
 }

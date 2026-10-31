@@ -1,0 +1,28 @@
+{
+  "values": {
+    "minecraft:leaf_litter": {
+      "chance": 0.3
+    },
+    "minecraft:orange_poplar_leaves": {
+      "chance": 0.3
+    },
+    "minecraft:poplar_sapling": {
+      "chance": 0.3
+    },
+    "minecraft:red_poplar_leaves": {
+      "chance": 0.3
+    },
+    "minecraft:red_shrub": {
+      "chance": 0.3
+    },
+    "minecraft:shelf_mushroom": {
+      "chance": 0.65
+    },
+    "minecraft:straw_bed": {
+      "chance": 0.85
+    },
+    "minecraft:yellow_poplar_leaves": {
+      "chance": 0.3
+    }
+  }
+}

@@ -7,6 +7,7 @@ import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
@@ -42,7 +43,45 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
         tag(BlockTags.WOODEN_PRESSURE_PLATES).add(ModBlocks.POPLAR_PRESSURE_PLATE.get());
         tag(BlockTags.WOODEN_BUTTONS).add(ModBlocks.POPLAR_BUTTON.get());
 
-        // Every block in this mod so far is a wood block, so an axe is the right tool for all of them.
+        tag(BlockTags.STANDING_SIGNS).add(ModBlocks.POPLAR_SIGN.get());
+        tag(BlockTags.WALL_SIGNS).add(ModBlocks.POPLAR_WALL_SIGN.get());
+        tag(BlockTags.CEILING_HANGING_SIGNS).add(ModBlocks.POPLAR_HANGING_SIGN.get());
+        tag(BlockTags.WALL_HANGING_SIGNS).add(ModBlocks.POPLAR_WALL_HANGING_SIGN.get());
+
+        // #leaves also makes hoes and shears break them quickly.
+        tag(BlockTags.LEAVES).add(
+                ModBlocks.RED_POPLAR_LEAVES.get(),
+                ModBlocks.ORANGE_POPLAR_LEAVES.get(),
+                ModBlocks.YELLOW_POPLAR_LEAVES.get());
+        tag(BlockTags.SAPLINGS).add(ModBlocks.POPLAR_SAPLING.get());
+        tag(BlockTags.FLOWER_POTS).add(ModBlocks.POTTED_POPLAR_SAPLING.get());
+
+        // Growing trees can overwrite shelf mushrooms; placing any block or a huge mushroom overwrites shrubs.
+        tag(BlockTags.REPLACEABLE_BY_TREES).add(ModBlocks.SHELF_MUSHROOM.get());
+        tag(BlockTags.REPLACEABLE).add(ModBlocks.RED_SHRUB.get(), ModBlocks.LEAF_LITTER.get());
+        tag(ModTags.Blocks.REPLACEABLE_BY_MUSHROOMS).add(ModBlocks.RED_SHRUB.get(), ModBlocks.LEAF_LITTER.get());
+        tag(BlockTags.REPLACEABLE_BY_TREES).add(ModBlocks.LEAF_LITTER.get());
+
+        // Straw bed: a hoe breaks it fastest (like hay). Not in #beds, so villagers and
+        // other mods' bed checks leave it alone, same as 26.3.
+        tag(BlockTags.MINEABLE_WITH_HOE).add(ModBlocks.STRAW_BED.get());
+
+        // Cushions placed on these land inside, on the real collision shape (26.3 tag).
+        tag(ModTags.Blocks.CUSHION_USES_COLLISION_SHAPE).addTag(BlockTags.CAULDRONS).add(Blocks.HOPPER, Blocks.COMPOSTER);
+
+        // Wool and concrete cuts, mirroring 26.3. The new tags feed into #stairs and #slabs.
+        ModBlocks.WOOL_STAIRS.values().forEach(b -> tag(ModTags.Blocks.WOOL_STAIRS).add(b.get()));
+        ModBlocks.WOOL_SLABS.values().forEach(b -> tag(ModTags.Blocks.WOOL_SLABS).add(b.get()));
+        ModBlocks.CONCRETE_STAIRS.values().forEach(b -> tag(ModTags.Blocks.CONCRETE_STAIRS).add(b.get()));
+        ModBlocks.CONCRETE_SLABS.values().forEach(b -> tag(ModTags.Blocks.CONCRETE_SLABS).add(b.get()));
+        tag(BlockTags.STAIRS).addTag(ModTags.Blocks.WOOL_STAIRS).addTag(ModTags.Blocks.CONCRETE_STAIRS);
+        tag(BlockTags.SLABS).addTag(ModTags.Blocks.WOOL_SLABS).addTag(ModTags.Blocks.CONCRETE_SLABS);
+        // Wool muffles sculk sensors, and so do its stairs and slabs.
+        tag(BlockTags.DAMPENS_VIBRATIONS).addTag(ModTags.Blocks.WOOL_STAIRS).addTag(ModTags.Blocks.WOOL_SLABS);
+        // Concrete needs a pickaxe.
+        tag(BlockTags.MINEABLE_WITH_PICKAXE).addTag(ModTags.Blocks.CONCRETE_STAIRS).addTag(ModTags.Blocks.CONCRETE_SLABS);
+
+        // Wooden blocks: an axe mines these fastest.
         tag(BlockTags.MINEABLE_WITH_AXE).add(
                 ModBlocks.POPLAR_PLANKS.get(),
                 ModBlocks.POPLAR_LOG.get(),
@@ -56,6 +95,10 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
                 ModBlocks.POPLAR_DOOR.get(),
                 ModBlocks.POPLAR_TRAPDOOR.get(),
                 ModBlocks.POPLAR_PRESSURE_PLATE.get(),
-                ModBlocks.POPLAR_BUTTON.get());
+                ModBlocks.POPLAR_BUTTON.get(),
+                ModBlocks.POPLAR_SIGN.get(),
+                ModBlocks.POPLAR_WALL_SIGN.get(),
+                ModBlocks.POPLAR_HANGING_SIGN.get(),
+                ModBlocks.POPLAR_WALL_HANGING_SIGN.get());
     }
 }

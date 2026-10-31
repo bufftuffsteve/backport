@@ -19,7 +19,8 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
  * Runs when you launch the "data" Gradle task (runData).
  * Writes JSON files into src/generated/resources, which the build already includes.
  */
-@EventBusSubscriber(modid = AutumnBackport.MODID, bus = EventBusSubscriber.Bus.MOD)
+// NeoForge detects that GatherDataEvent belongs on the mod event bus, so no "bus =" setting is needed.
+@EventBusSubscriber(modid = AutumnBackport.MODID)
 public final class DataGenerators {
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
@@ -31,6 +32,7 @@ public final class DataGenerators {
         // Client side: models, blockstates, names
         generator.addProvider(event.includeClient(), new ModBlockStateProvider(output, files));
         generator.addProvider(event.includeClient(), new ModLanguageProvider(output));
+        generator.addProvider(event.includeClient(), new ModParticleProvider(output, files));
 
         // Server side: loot, tags, recipes
         generator.addProvider(event.includeServer(), new LootTableProvider(output, Set.of(),
@@ -41,6 +43,8 @@ public final class DataGenerators {
         generator.addProvider(event.includeServer(),
                 new ModItemTagsProvider(output, lookup, blockTags.contentsGetter(), files));
         generator.addProvider(event.includeServer(), new ModRecipeProvider(output, lookup));
+        generator.addProvider(event.includeServer(), new ModDataMapProvider(output, lookup));
+        generator.addProvider(event.includeServer(), new ModWorldGenProvider(output, lookup));
     }
 
     private DataGenerators() {}

@@ -1,7 +1,9 @@
 package com.buffsteve.autumnbackport.datagen;
 
 import com.buffsteve.autumnbackport.AutumnBackport;
+import com.buffsteve.autumnbackport.registry.ModItems;
 import com.buffsteve.autumnbackport.registry.ModTags;
+import net.minecraft.world.item.Items;
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -36,5 +38,21 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         copy(BlockTags.WOODEN_TRAPDOORS, ItemTags.WOODEN_TRAPDOORS);
         copy(BlockTags.WOODEN_PRESSURE_PLATES, ItemTags.WOODEN_PRESSURE_PLATES);
         copy(BlockTags.WOODEN_BUTTONS, ItemTags.WOODEN_BUTTONS);
+        copy(BlockTags.LEAVES, ItemTags.LEAVES);
+        tag(ItemTags.SIGNS).add(ModItems.POPLAR_SIGN.get());
+        tag(ItemTags.HANGING_SIGNS).add(ModItems.POPLAR_HANGING_SIGN.get());
+        tag(ItemTags.BOATS).add(ModItems.POPLAR_BOAT.get());
+        tag(ItemTags.CHEST_BOATS).add(ModItems.POPLAR_CHEST_BOAT.get());
+        copy(BlockTags.SAPLINGS, ItemTags.SAPLINGS);
+        copy(ModTags.Blocks.WOOL_STAIRS, ModTags.Items.WOOL_STAIRS);
+        copy(ModTags.Blocks.WOOL_SLABS, ModTags.Items.WOOL_SLABS);
+        copy(ModTags.Blocks.CONCRETE_STAIRS, ModTags.Items.CONCRETE_STAIRS);
+        copy(ModTags.Blocks.CONCRETE_SLABS, ModTags.Items.CONCRETE_SLABS);
+        // #mushrooms (new in 26.3): any two of these make mushroom stew or suspicious stew.
+        tag(ModTags.Items.MUSHROOMS).add(Items.BROWN_MUSHROOM, Items.RED_MUSHROOM, ModItems.SHELF_MUSHROOM.get());
+        ModItems.CUSHIONS.values().forEach(item -> tag(ModTags.Items.CUSHIONS).add(item.get()));
+        tag(ItemTags.STAIRS).addTag(ModTags.Items.WOOL_STAIRS).addTag(ModTags.Items.CONCRETE_STAIRS);
+        tag(ItemTags.SLABS).addTag(ModTags.Items.WOOL_SLABS).addTag(ModTags.Items.CONCRETE_SLABS);
+        tag(ItemTags.DAMPENS_VIBRATIONS).addTag(ModTags.Items.WOOL_STAIRS).addTag(ModTags.Items.WOOL_SLABS);
     }
 }

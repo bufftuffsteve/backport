@@ -1,6 +1,5 @@
 package com.buffsteve.autumnbackport.registry;
 
-import com.buffsteve.autumnbackport.AutumnBackport;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FireBlock;
 
@@ -20,13 +19,18 @@ public final class ModFlammability {
         fire.setFlammable(ModBlocks.POPLAR_WOOD.get(), 5, 5);
         fire.setFlammable(ModBlocks.STRIPPED_POPLAR_LOG.get(), 5, 5);
         fire.setFlammable(ModBlocks.STRIPPED_POPLAR_WOOD.get(), 5, 5);
-
-        // Temporary check: compare with oak planks in the log. Remove once fire is confirmed.
-        AutumnBackport.LOGGER.info("Fire check: poplar planks catch={} burn={}, oak planks catch={} burn={}",
-                fire.getIgniteOdds(ModBlocks.POPLAR_PLANKS.get().defaultBlockState()),
-                fire.getBurnOdds(ModBlocks.POPLAR_PLANKS.get().defaultBlockState()),
-                fire.getIgniteOdds(Blocks.OAK_PLANKS.defaultBlockState()),
-                fire.getBurnOdds(Blocks.OAK_PLANKS.defaultBlockState()));
+        // Leaves: 30 / 60
+        fire.setFlammable(ModBlocks.RED_POPLAR_LEAVES.get(), 30, 60);
+        fire.setFlammable(ModBlocks.ORANGE_POPLAR_LEAVES.get(), 30, 60);
+        fire.setFlammable(ModBlocks.YELLOW_POPLAR_LEAVES.get(), 30, 60);
+        // Red shrub: 60 / 100, same as grass and bushes. (Shelf mushrooms don't burn.)
+        fire.setFlammable(ModBlocks.RED_SHRUB.get(), 60, 100);
+        fire.setFlammable(ModBlocks.LEAF_LITTER.get(), 60, 100);
+        // Straw bed: 30 / 60
+        fire.setFlammable(ModBlocks.STRAW_BED.get(), 30, 60);
+        // Wool stairs and slabs: 30 / 60, same as wool. (Concrete doesn't burn.)
+        ModBlocks.WOOL_STAIRS.values().forEach(block -> fire.setFlammable(block.get(), 30, 60));
+        ModBlocks.WOOL_SLABS.values().forEach(block -> fire.setFlammable(block.get(), 30, 60));
     }
 
     private ModFlammability() {}

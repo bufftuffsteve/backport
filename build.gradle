@@ -28,6 +28,8 @@ sourceSets.main.resources {
 
 repositories {
     // Add here additional repositories if required by some of the dependencies below.
+    // TerraBlender (adds the Dappled Forest to world generation)
+    maven { url = 'https://maven.minecraftforge.net/' }
 }
 
 base {
@@ -116,6 +118,9 @@ configurations {
 }
 
 dependencies {
+    // TerraBlender: required at runtime, so players need it installed too.
+    implementation "com.github.glitchfiend:TerraBlender-neoforge:${minecraft_version}-${terrablender_version}"
+
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"
