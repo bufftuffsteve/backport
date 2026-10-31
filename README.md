@@ -1,25 +1,62 @@
+![Wilderness Bound: Dappled Forest Backport](docs/banner.png)
 
-Installation information
-=======
+# Wilderness Bound: Dappled Forest Backport
 
-This template repository can be directly cloned to get you started with a new
-mod. Simply create a new repository cloned from this one, by following the
-instructions provided by [GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
+A NeoForge mod that backports the autumn content from **Minecraft 26.3 "Wilderness Bound"** to **1.21.1**: the Dappled Forest biome, poplar wood, cushions, straw beds, shelf mushrooms and abandoned camps.
 
-Once you have your clone, simply open the repository in the IDE of your choice. The usual recommendation for an IDE is either IntelliJ IDEA or Eclipse.
+Everything is registered under vanilla's own IDs (`minecraft:poplar_log`, `minecraft:dappled_forest`, ...), so worlds made with this mod keep their blocks when upgraded to 26.3.
 
-If at any point you are missing libraries in your IDE, or you've run into problems you can
-run `gradlew --refresh-dependencies` to refresh the local cache. `gradlew clean` to reset everything 
-{this does not affect your code} and then start the process again.
+## Features
 
-Mapping Names:
-============
-By default, the MDK is configured to use the official mapping names from Mojang for methods and fields 
-in the Minecraft codebase. These names are covered by a specific license. All modders should be aware of this
-license. For the latest license text, refer to the mapping file itself, or the reference copy here:
-https://github.com/NeoForged/NeoForm/blob/main/Mojang.md
+- **Dappled Forest biome**: orange grass, red/orange/yellow poplar trees, shelf mushrooms, fallen logs, leaf litter, red shrubs and coarse dirt patches
+- **Abandoned camps**: tents and campsites with cushions, straw beds and loot
+- **Poplar wood set**: logs, wood, planks, stairs, slabs, fences, gates, doors, trapdoors, buttons, pressure plates, signs, hanging signs, boats and chest boats
+- **Cushions** (16 colors), **straw beds**, **shelf mushrooms**, **leaf litter**
+- **Wool and concrete stairs and slabs** in all 16 colors
+- Wandering trader trades for poplar saplings, logs and shelf mushrooms
 
-Additional Resources: 
-==========
-Community Documentation: https://docs.neoforged.net/  
-NeoForged Discord: https://discord.neoforged.net/
+## Requirements
+
+| | Version |
+| --- | --- |
+| Minecraft | 1.21.1 |
+| NeoForge | 21.1.265 or newer |
+| [TerraBlender](https://modrinth.com/mod/terrablender) | 4.1.0.8 or newer (required) |
+
+## Building from source
+
+Requires JDK 21.
+
+```sh
+./gradlew runData    # regenerate models, recipes, loot tables, tags and worldgen into src/generated
+./gradlew build      # the mod jar ends up in build/libs
+./gradlew runClient  # launch a test game
+```
+
+On Windows use `gradlew.bat`, or run the same tasks from IntelliJ's Gradle panel.
+
+## Project layout
+
+| Path | Contents |
+| --- | --- |
+| `src/main/java/.../block` | Custom blocks: shelf mushroom, red shrub, straw bed, leaf litter, poplar leaves and sapling |
+| `src/main/java/.../entity` | The cushion entity and item |
+| `src/main/java/.../world` | Poplar tree shapes, tree decorations, fallen trees, the Dappled Forest biome and its TerraBlender region |
+| `src/main/java/.../registry` | Block, item, entity and other registrations |
+| `src/main/java/.../datagen` | Data generators (run with `runData`) |
+| `src/main/resources` | Textures, hand-written models, camp structures and loot tables |
+| `src/generated/resources` | Output of `runData`. Don't edit by hand |
+
+## Differences from 26.3
+
+1.21.1 can't do everything 26.3 does, so a few things differ:
+
+- New 26.3 sounds use the closest 1.21.1 sounds
+- Fallen trees only generate when the whole log fits (no lone stumps)
+- Copper chests, lanterns and copper gear in camps are replaced with 1.21.1 equivalents
+- Only the Dappled Forest's camps are included so far
+- Placed boats become oak boats when a world is upgraded to 26.3
+
+## License
+
+All rights reserved. See `gradle.properties` (`mod_license`).

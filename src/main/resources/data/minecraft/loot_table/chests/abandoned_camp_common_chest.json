@@ -286,6 +286,214 @@
         }
       ],
       "rolls": 2
+    },
+    {
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:map",
+          "functions": [
+            {
+              "decoration": "minecraft:red_x",
+              "destination": "minecraft:on_abandoned_camp_bamboo_jungle",
+              "function": "minecraft:exploration_map"
+            },
+            {
+              "name": {
+                "translate": "filled_map.bamboo_camp_map"
+              },
+              "target": "item_name",
+              "function": "minecraft:set_name"
+            }
+          ],
+          "conditions": [
+            {
+              "term": {
+                "predicate": {
+                  "biomes": "minecraft:bamboo_jungle"
+                },
+                "condition": "minecraft:location_check"
+              },
+              "condition": "minecraft:inverted"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:map",
+          "functions": [
+            {
+              "decoration": "minecraft:red_x",
+              "destination": "minecraft:on_abandoned_camp_cherry_grove",
+              "function": "minecraft:exploration_map"
+            },
+            {
+              "name": {
+                "translate": "filled_map.cherry_grove_camp_map"
+              },
+              "target": "item_name",
+              "function": "minecraft:set_name"
+            }
+          ],
+          "conditions": [
+            {
+              "term": {
+                "predicate": {
+                  "biomes": "minecraft:cherry_grove"
+                },
+                "condition": "minecraft:location_check"
+              },
+              "condition": "minecraft:inverted"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:map",
+          "functions": [
+            {
+              "decoration": "minecraft:red_x",
+              "destination": "minecraft:on_abandoned_camp_birch_forest",
+              "function": "minecraft:exploration_map"
+            },
+            {
+              "name": {
+                "translate": "filled_map.birch_forest_camp_map"
+              },
+              "target": "item_name",
+              "function": "minecraft:set_name"
+            }
+          ],
+          "conditions": [
+            {
+              "term": {
+                "predicate": {
+                  "biomes": "minecraft:birch_forest"
+                },
+                "condition": "minecraft:location_check"
+              },
+              "condition": "minecraft:inverted"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:map",
+          "functions": [
+            {
+              "decoration": "minecraft:red_x",
+              "destination": "minecraft:on_abandoned_camp_dappled_forest",
+              "function": "minecraft:exploration_map"
+            },
+            {
+              "name": {
+                "translate": "filled_map.dappled_forest_camp_map"
+              },
+              "target": "item_name",
+              "function": "minecraft:set_name"
+            }
+          ],
+          "conditions": [
+            {
+              "term": {
+                "predicate": {
+                  "biomes": "minecraft:dappled_forest"
+                },
+                "condition": "minecraft:location_check"
+              },
+              "condition": "minecraft:inverted"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:map",
+          "functions": [
+            {
+              "decoration": "minecraft:red_x",
+              "destination": "minecraft:on_abandoned_camp_flower_forest",
+              "function": "minecraft:exploration_map"
+            },
+            {
+              "name": {
+                "translate": "filled_map.flower_forest_camp_map"
+              },
+              "target": "item_name",
+              "function": "minecraft:set_name"
+            }
+          ],
+          "conditions": [
+            {
+              "term": {
+                "predicate": {
+                  "biomes": "minecraft:flower_forest"
+                },
+                "condition": "minecraft:location_check"
+              },
+              "condition": "minecraft:inverted"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:map",
+          "functions": [
+            {
+              "decoration": "minecraft:red_x",
+              "destination": "minecraft:on_abandoned_camp_swamp",
+              "function": "minecraft:exploration_map"
+            },
+            {
+              "name": {
+                "translate": "filled_map.swamp_camp_map"
+              },
+              "target": "item_name",
+              "function": "minecraft:set_name"
+            }
+          ],
+          "conditions": [
+            {
+              "term": {
+                "predicate": {
+                  "biomes": "minecraft:swamp"
+                },
+                "condition": "minecraft:location_check"
+              },
+              "condition": "minecraft:inverted"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:map",
+          "functions": [
+            {
+              "decoration": "minecraft:red_x",
+              "destination": "minecraft:on_abandoned_camp_windswept_forest",
+              "function": "minecraft:exploration_map"
+            },
+            {
+              "name": {
+                "translate": "filled_map.windswept_forest_camp_map"
+              },
+              "target": "item_name",
+              "function": "minecraft:set_name"
+            }
+          ],
+          "conditions": [
+            {
+              "term": {
+                "predicate": {
+                  "biomes": "minecraft:windswept_forest"
+                },
+                "condition": "minecraft:location_check"
+              },
+              "condition": "minecraft:inverted"
+            }
+          ]
+        }
+      ],
+      "rolls": 1
     }
   ],
   "random_sequence": "minecraft:chests/abandoned_camp_common_chest"

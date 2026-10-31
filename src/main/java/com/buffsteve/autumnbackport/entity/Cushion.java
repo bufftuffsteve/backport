@@ -254,9 +254,13 @@ public class Cushion extends BlockAttachedEntity {
         tag.putString("color", getColor().getSerializedName());
     }
 
+    /**
+     * Doesn't read the saved block position (TileX/Y/Z) like paintings do: a cushion's position
+     * already comes from where it is, and cushions placed by camp structures carry the position
+     * of the world they were built in, which would only log an error.
+     */
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
         setColor(DyeColor.byName(tag.getString("color"), DEFAULT_COLOR));
     }
 }

@@ -52,6 +52,14 @@ public class ModLanguageProvider extends LanguageProvider {
         addBlock(ModBlocks.RED_SHRUB, "Red Shrub");
         addBlock(ModBlocks.LEAF_LITTER, "Leaf Litter");
         add("biome.minecraft.dappled_forest", "Dappled Forest");
+        // Treasure maps found in camp chests that lead to camps in other biomes (26.3 names)
+        add("filled_map.bamboo_camp_map", "Bamboo Camp Map");
+        add("filled_map.birch_forest_camp_map", "Birch Forest Camp Map");
+        add("filled_map.cherry_grove_camp_map", "Cherry Grove Camp Map");
+        add("filled_map.dappled_forest_camp_map", "Dappled Forest Camp Map");
+        add("filled_map.flower_forest_camp_map", "Flower Forest Camp Map");
+        add("filled_map.swamp_camp_map", "Swamp Camp Map");
+        add("filled_map.windswept_forest_camp_map", "Windswept Forest Camp Map");
         addBlock(ModBlocks.STRAW_BED, "Straw Bed");
         add("stat.minecraft.sleep_in_straw_bed", "Times Slept in a Straw Bed");
         addEntityType(ModEntities.CUSHION, "Cushion");
