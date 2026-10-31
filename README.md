@@ -28,9 +28,7 @@ Everything is registered under vanilla's own IDs (`minecraft:poplar_log`, `minec
 Requires JDK 21.
 
 ```sh
-./gradlew runData    # regenerate models, recipes, loot tables, tags and worldgen into src/generated
 ./gradlew build      # the mod jar ends up in build/libs
-./gradlew runClient  # launch a test game
 ```
 
 On Windows use `gradlew.bat`, or run the same tasks from IntelliJ's Gradle panel.
