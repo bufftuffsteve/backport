@@ -1,6 +1,6 @@
 package com.buffsteve.autumnbackport.world;
 
-import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import net.minecraft.world.level.levelgen.structure.BoundingBox;
  * {@code radius} blocks sideways and {@code height} up/down of the trunk base.
  */
 public class PlaceOnGroundDecorator extends TreeDecorator {
-    public static final MapCodec<PlaceOnGroundDecorator> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
+    public static final Codec<PlaceOnGroundDecorator> CODEC = RecordCodecBuilder.create(i -> i.group(
             ExtraCodecs.POSITIVE_INT.fieldOf("tries").orElse(128).forGetter(d -> d.tries),
             ExtraCodecs.NON_NEGATIVE_INT.fieldOf("radius").orElse(2).forGetter(d -> d.radius),
             ExtraCodecs.NON_NEGATIVE_INT.fieldOf("height").orElse(1).forGetter(d -> d.height),
@@ -51,7 +51,7 @@ public class PlaceOnGroundDecorator extends TreeDecorator {
         if (base.isEmpty()) {
             return;
         }
-        BlockPos first = base.getFirst();
+        BlockPos first = base.get(0);
         int y = first.getY();
         int minX = first.getX(), maxX = first.getX(), minZ = first.getZ(), maxZ = first.getZ();
         for (BlockPos pos : base) {
@@ -63,7 +63,7 @@ public class PlaceOnGroundDecorator extends TreeDecorator {
             }
         }
         RandomSource random = context.random();
-        BoundingBox box = new BoundingBox(minX, y, minZ, maxX, y, maxZ).inflatedBy(radius, height, radius);
+        BoundingBox box = new BoundingBox(minX - radius, y - height, minZ - radius, maxX + radius, y + height, maxZ + radius);
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
         for (int i = 0; i < tries; i++) {
             pos.set(random.nextIntBetweenInclusive(box.minX(), box.maxX()),
@@ -90,7 +90,7 @@ public class PlaceOnGroundDecorator extends TreeDecorator {
         List<BlockPos> logs = context.logs();
         if (roots.isEmpty()) {
             result.addAll(logs);
-        } else if (!logs.isEmpty() && roots.getFirst().getY() == logs.getFirst().getY()) {
+        } else if (!logs.isEmpty() && roots.get(0).getY() == logs.get(0).getY()) {
             result.addAll(logs);
             result.addAll(roots);
         } else {

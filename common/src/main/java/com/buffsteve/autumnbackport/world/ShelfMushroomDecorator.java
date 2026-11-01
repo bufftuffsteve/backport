@@ -3,7 +3,6 @@ package com.buffsteve.autumnbackport.world;
 import com.buffsteve.autumnbackport.block.ShelfMushroomBlock;
 import com.buffsteve.autumnbackport.registry.ModBlocks;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
 import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -22,9 +21,10 @@ import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorTy
  * Never next to water, and never stacked directly on another shelf mushroom.
  */
 public class ShelfMushroomDecorator extends TreeDecorator {
-    public static final MapCodec<ShelfMushroomDecorator> CODEC = Codec.floatRange(0.0F, 1.0F)
+    public static final Codec<ShelfMushroomDecorator> CODEC = Codec.floatRange(0.0F, 1.0F)
             .fieldOf("probability")
-            .xmap(ShelfMushroomDecorator::new, decorator -> decorator.probability);
+            .xmap(ShelfMushroomDecorator::new, decorator -> decorator.probability)
+            .codec();
 
     private static final int MIN_HEIGHT_OFFSET = 1;
     private static final int MAX_HEIGHT_OFFSET = 4;
@@ -51,7 +51,7 @@ public class ShelfMushroomDecorator extends TreeDecorator {
         if (logs.isEmpty()) {
             return;
         }
-        if (logs.getFirst().getY() == logs.getLast().getY()) {
+        if (logs.get(0).getY() == logs.get(logs.size() - 1).getY()) {
             placeOnFallenLog(context, logs, random);
         } else {
             placeOnStandingTree(context, logs, random);
@@ -61,7 +61,7 @@ public class ShelfMushroomDecorator extends TreeDecorator {
     private static void placeOnStandingTree(Context context, List<BlockPos> logs, RandomSource random) {
         Direction first = Direction.Plane.HORIZONTAL.getRandomDirection(random);
         Direction[] sides = {first, first.getClockWise()};
-        int baseY = logs.getFirst().getY();
+        int baseY = logs.get(0).getY();
         for (BlockPos log : logs) {
             int height = log.getY() - baseY;
             if (height < MIN_HEIGHT_OFFSET || height > MAX_HEIGHT_OFFSET) {
@@ -82,7 +82,7 @@ public class ShelfMushroomDecorator extends TreeDecorator {
 
     /** Lying logs (26.3's fallen trees). Not used by poplars, kept so the decorator works the same anywhere. */
     private static void placeOnFallenLog(Context context, List<BlockPos> logs, RandomSource random) {
-        boolean alongX = logs.getFirst().getX() != logs.getLast().getX();
+        boolean alongX = logs.get(0).getX() != logs.get(logs.size() - 1).getX();
         Direction[] sides = alongX
                 ? new Direction[] {Direction.NORTH, Direction.SOUTH}
                 : new Direction[] {Direction.EAST, Direction.WEST};

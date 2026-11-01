@@ -1,7 +1,6 @@
 package com.buffsteve.autumnbackport.world;
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -23,7 +22,7 @@ import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerTy
  * Inside the widest canopies, sideways logs run through the leaves as inner branches.
  */
 public class PoplarFoliagePlacer extends FoliagePlacer {
-    public static final MapCodec<PoplarFoliagePlacer> CODEC = RecordCodecBuilder.mapCodec(instance ->
+    public static final Codec<PoplarFoliagePlacer> CODEC = RecordCodecBuilder.create(instance ->
             foliagePlacerParts(instance).and(instance.group(
                     IntProvider.codec(5, 16).fieldOf("height").forGetter(p -> p.height),
                     Codec.floatRange(0.0F, 1.0F).fieldOf("side_hole_chance").forGetter(p -> p.sideHoleChance)

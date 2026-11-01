@@ -1,7 +1,6 @@
 package com.buffsteve.autumnbackport.block;
 
 import com.buffsteve.autumnbackport.registry.ModStats;
-import com.mojang.serialization.MapCodec;
 import java.util.EnumMap;
 import java.util.Map;
 import org.jetbrains.annotations.Nullable;
@@ -10,6 +9,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -42,7 +42,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * as a normal block model instead of the bed renderer.
  */
 public class StrawBedBlock extends BedBlock {
-    public static final MapCodec<StrawBedBlock> CODEC = simpleCodec(StrawBedBlock::new);
 
     // 26.3 shapes: a 4px mattress on both halves, plus a 5px pillow on the far half of the head.
     private static final VoxelShape BASE = Block.box(0, 0, 0, 16, 4, 16);
@@ -63,21 +62,16 @@ public class StrawBedBlock extends BedBlock {
         super(DyeColor.YELLOW, properties);
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public MapCodec<BedBlock> codec() {
-        return (MapCodec<BedBlock>) (MapCodec<?>) CODEC;
-    }
 
     @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return state.getValue(PART) == BedPart.HEAD ? HEAD_SHAPES.get(state.getValue(FACING)) : BASE;
     }
 
     // ---- Drawn with its JSON model, no block entity ----
 
     @Override
-    protected RenderShape getRenderShape(BlockState state) {
+    public RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
     }
 
@@ -89,7 +83,7 @@ public class StrawBedBlock extends BedBlock {
     // ---- Using it ----
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         // Nether and End: a normal bed explodes; a straw bed just falls apart.
         if (!canSetSpawn(level)) {
             if (!level.isClientSide) {
@@ -97,7 +91,7 @@ public class StrawBedBlock extends BedBlock {
             }
             return InteractionResult.sidedSuccess(level.isClientSide);
         }
-        return super.useWithoutItem(state, level, pos, player, hit);
+        return super.use(state, level, pos, player, hand, hit);
     }
 
     /** Lying down counts toward the new statistic. Called from LivingEntityMixin on every loader. */

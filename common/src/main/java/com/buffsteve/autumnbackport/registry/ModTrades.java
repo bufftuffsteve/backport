@@ -6,7 +6,6 @@ import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.npc.WanderingTrader;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
 
@@ -18,13 +17,13 @@ public final class ModTrades {
     /** Common pool (same as 26.3): 1 emerald -> 3 shelf mushrooms, 12 times. */
     public static List<VillagerTrades.ItemListing> genericTrades() {
         return List.of((trader, random) ->
-                new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(ModItems.SHELF_MUSHROOM.get(), 3), 12, 1, 0.05F));
+                new MerchantOffer(new ItemStack(Items.EMERALD, 1), new ItemStack(ModItems.SHELF_MUSHROOM.get(), 3), 12, 1, 0.05F));
     }
 
     /** Uncommon pool (same as 26.3): 1 emerald -> 8 poplar logs. */
     public static List<VillagerTrades.ItemListing> rareTrades() {
         return List.of((trader, random) ->
-                new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(ModItems.POPLAR_LOG.get(), 8), 4, 1, 0.05F));
+                new MerchantOffer(new ItemStack(Items.EMERALD, 1), new ItemStack(ModItems.POPLAR_LOG.get(), 8), 4, 1, 0.05F));
     }
 
     /**
@@ -40,7 +39,7 @@ public final class ModTrades {
         boolean hasSapling = offers.stream().anyMatch(offer -> offer.getResult().is(ModItems.POPLAR_SAPLING.get()));
         if (!hasSapling) {
             // 1 emerald -> 1 poplar sapling, up to 8 times. (26.3 charges 5; this mod makes it 1.)
-            offers.add(new MerchantOffer(new ItemCost(Items.EMERALD, 1), new ItemStack(ModItems.POPLAR_SAPLING.get()), 8, 1, 0.05F));
+            offers.add(new MerchantOffer(new ItemStack(Items.EMERALD, 1), new ItemStack(ModItems.POPLAR_SAPLING.get()), 8, 1, 0.05F));
         }
     }
 

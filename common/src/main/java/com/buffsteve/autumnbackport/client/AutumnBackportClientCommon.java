@@ -29,9 +29,9 @@ public final class AutumnBackportClientCommon {
     /** Makes sure the sign renderers know where poplar's sign textures are. */
     public static void registerSignMaterials() {
         Sheets.SIGN_MATERIALS.computeIfAbsent(ModWoodTypes.POPLAR, type ->
-                new Material(Sheets.SIGN_SHEET, ResourceLocation.withDefaultNamespace("entity/signs/poplar")));
+                new Material(Sheets.SIGN_SHEET, new ResourceLocation("entity/signs/poplar")));
         Sheets.HANGING_SIGN_MATERIALS.computeIfAbsent(ModWoodTypes.POPLAR, type ->
-                new Material(Sheets.SIGN_SHEET, ResourceLocation.withDefaultNamespace("entity/signs/hanging/poplar")));
+                new Material(Sheets.SIGN_SHEET, new ResourceLocation("entity/signs/hanging/poplar")));
     }
 
     /** Falling poplar leaves, one sprite set per color. */

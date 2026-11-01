@@ -10,7 +10,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 public final class ModStats {
     /** "Times Slept in a Straw Bed" */
     public static final RegistryEntry<ResourceLocation> SLEEP_IN_STRAW_BED =
-            ModRegistry.register(BuiltInRegistries.CUSTOM_STAT, "sleep_in_straw_bed", () -> ResourceLocation.withDefaultNamespace("sleep_in_straw_bed"));
+            ModRegistry.register(BuiltInRegistries.CUSTOM_STAT, "sleep_in_straw_bed", () -> new ResourceLocation("sleep_in_straw_bed"));
 
     /** Vanilla also needs each custom stat added to the stats list once. Call during common setup. */
     public static void register() {

@@ -30,7 +30,7 @@ public final class ModCreativeTabs {
     private static final ResourceKey<CreativeModeTab> NATURAL_BLOCKS = tab("natural_blocks");
 
     private static ResourceKey<CreativeModeTab> tab(String name) {
-        return ResourceKey.create(Registries.CREATIVE_MODE_TAB, ResourceLocation.withDefaultNamespace(name));
+        return ResourceKey.create(Registries.CREATIVE_MODE_TAB, new ResourceLocation(name));
     }
 
     /** Every tab this mod adds to. */

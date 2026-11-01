@@ -38,7 +38,7 @@ public class DappledForestRegion extends Region {
     private static final Climate.Parameter DRIEST = Climate.Parameter.span(-1.0F, -0.35F);
 
     public DappledForestRegion() {
-        super(ResourceLocation.fromNamespaceAndPath(AutumnBackport.MODID, "overworld"), RegionType.OVERWORLD, WEIGHT);
+        super(new ResourceLocation(AutumnBackport.MODID, "overworld"), RegionType.OVERWORLD, WEIGHT);
     }
 
     @Override

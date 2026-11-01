@@ -19,7 +19,7 @@ public class CushionRenderer extends EntityRenderer<Cushion> {
 
     static {
         for (DyeColor color : DyeColor.values()) {
-            TEXTURES.put(color, ResourceLocation.withDefaultNamespace("textures/entity/cushion/" + color.getName() + "_cushion.png"));
+            TEXTURES.put(color, new ResourceLocation("textures/entity/cushion/" + color.getName() + "_cushion.png"));
         }
     }
 
@@ -37,7 +37,8 @@ public class CushionRenderer extends EntityRenderer<Cushion> {
         poseStack.mulPose(Axis.YP.rotationDegrees(180.0F - facing.toYRot()));
         poseStack.mulPose(Axis.XP.rotationDegrees(180.0F));
         poseStack.translate(0.0, -0.25, 0.0);
-        model.renderToBuffer(poseStack, buffers.getBuffer(model.renderType(getTextureLocation(cushion))), light, OverlayTexture.NO_OVERLAY);
+        model.renderToBuffer(poseStack, buffers.getBuffer(model.renderType(getTextureLocation(cushion))), light, OverlayTexture.NO_OVERLAY,
+                1.0F, 1.0F, 1.0F, 1.0F);
         poseStack.popPose();
         super.render(cushion, entityYaw, partialTick, poseStack, buffers, light); // name tag
     }

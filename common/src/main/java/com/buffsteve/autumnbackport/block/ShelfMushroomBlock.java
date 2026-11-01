@@ -1,6 +1,5 @@
 package com.buffsteve.autumnbackport.block;
 
-import com.mojang.serialization.MapCodec;
 import java.util.EnumMap;
 import java.util.Map;
 import net.minecraft.core.BlockPos;
@@ -37,7 +36,6 @@ import org.jetbrains.annotations.Nullable;
  * Bouncy to land on, like a bed, and halves fall damage.
  */
 public class ShelfMushroomBlock extends HorizontalDirectionalBlock implements BonemealableBlock {
-    public static final MapCodec<ShelfMushroomBlock> CODEC = simpleCodec(ShelfMushroomBlock::new);
     public static final IntegerProperty AGE = BlockStateProperties.AGE_1;
 
     /** 26.3 values: keeps 75% of the landing speed as bounce, and halves fall distance. */
@@ -58,25 +56,21 @@ public class ShelfMushroomBlock extends HorizontalDirectionalBlock implements Bo
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(AGE, 0));
     }
 
-    @Override
-    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return CODEC;
-    }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING, AGE);
     }
 
     @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return (state.getValue(AGE) == 0 ? SMALL : LARGE).get(state.getValue(FACING));
     }
 
     // ---- Placement: needs a solid face behind it ----
 
     @Override
-    protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+    public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         Direction facing = state.getValue(FACING);
         BlockPos support = pos.relative(facing.getOpposite());
         return level.getBlockState(support).isFaceSturdy(level, support, facing);
@@ -99,7 +93,7 @@ public class ShelfMushroomBlock extends HorizontalDirectionalBlock implements Bo
 
     /** Pops off if the block it's attached to is removed. */
     @Override
-    protected BlockState updateShape(BlockState state, Direction direction, BlockState neighbor, LevelAccessor level,
+    public BlockState updateShape(BlockState state, Direction direction, BlockState neighbor, LevelAccessor level,
                                      BlockPos pos, BlockPos neighborPos) {
         if (direction == state.getValue(FACING).getOpposite() && !state.canSurvive(level, pos)) {
             return Blocks.AIR.defaultBlockState();
@@ -108,7 +102,7 @@ public class ShelfMushroomBlock extends HorizontalDirectionalBlock implements Bo
     }
 
     @Override
-    protected boolean isPathfindable(BlockState state, PathComputationType type) {
+    public boolean isPathfindable(BlockState state, BlockGetter level, BlockPos pos, PathComputationType type) {
         return false;
     }
 
@@ -135,7 +129,7 @@ public class ShelfMushroomBlock extends HorizontalDirectionalBlock implements Bo
     // ---- Bone meal: small -> large ----
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, boolean isClient) {
         return state.getValue(AGE) < 1;
     }
 

@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 public final class FabricPlatform implements Platform {
     @Override
     public <R, T extends R> RegistryEntry<T> register(Registry<R> registry, String name, Supplier<T> factory) {
-        ResourceLocation id = ResourceLocation.withDefaultNamespace(name);
+        ResourceLocation id = new ResourceLocation(name);
         T value = Registry.register(registry, id, factory.get());
         ResourceKey<R> key = ResourceKey.create(registry.key(), id);
         return new RegistryEntry<>() {

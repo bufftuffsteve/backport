@@ -17,8 +17,10 @@
       "type": "minecraft:poplar_foliage_placer",
       "height": {
         "type": "minecraft:uniform",
-        "max_inclusive": 6,
-        "min_inclusive": 5
+        "value": {
+          "max_inclusive": 6,
+          "min_inclusive": 5
+        }
       },
       "offset": 0,
       "radius": {
@@ -68,8 +70,10 @@
       "base_height": 7,
       "branch_amount": {
         "type": "minecraft:uniform",
-        "max_inclusive": 4,
-        "min_inclusive": 1
+        "value": {
+          "max_inclusive": 4,
+          "min_inclusive": 1
+        }
       },
       "height_rand_a": 4,
       "height_rand_b": 0,

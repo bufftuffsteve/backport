@@ -20,7 +20,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.entity.decoration.BlockAttachedEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
@@ -61,8 +60,8 @@ public class Cushion extends BlockAttachedEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        builder.define(DATA_COLOR, DEFAULT_COLOR.getId());
+    protected void defineSynchedData() {
+        entityData.define(DATA_COLOR, DEFAULT_COLOR.getId());
     }
 
     // ---- Position and size ----
@@ -190,7 +189,7 @@ public class Cushion extends BlockAttachedEntity {
         if (!(level() instanceof ServerLevel serverLevel) || !serverLevel.getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
             return;
         }
-        if (breaker instanceof Player player && player.hasInfiniteMaterials()) {
+        if (breaker instanceof Player player && player.getAbilities().instabuild) {
             return; // creative mode: no drop
         }
         spawnAtLocation(itemWithData());
@@ -207,14 +206,14 @@ public class Cushion extends BlockAttachedEntity {
 
     private static Block woolBlock(DyeColor color) {
         return net.minecraft.core.registries.BuiltInRegistries.BLOCK.get(
-                net.minecraft.resources.ResourceLocation.withDefaultNamespace(color.getName() + "_wool"));
+                new net.minecraft.resources.ResourceLocation(color.getName() + "_wool"));
     }
 
     /** The item for this color, keeping a name given with a name tag or anvil. */
     private ItemStack itemWithData() {
         ItemStack stack = new ItemStack(ModItems.CUSHIONS.get(getColor()).get());
         if (hasCustomName()) {
-            stack.set(net.minecraft.core.component.DataComponents.CUSTOM_NAME, getCustomName());
+            stack.setHoverName(getCustomName());
         }
         return stack;
     }

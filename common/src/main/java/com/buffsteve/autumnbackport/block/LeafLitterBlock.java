@@ -1,6 +1,5 @@
 package com.buffsteve.autumnbackport.block;
 
-import com.mojang.serialization.MapCodec;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +28,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * use more leaf litter on it to add a piece. Colored by the biome's "dry foliage" tint.
  */
 public class LeafLitterBlock extends BushBlock {
-    public static final MapCodec<LeafLitterBlock> CODEC = simpleCodec(LeafLitterBlock::new);
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     /** Same property name as 1.21.5+ ("segment_amount"), so placed litter survives a world upgrade. */
     public static final IntegerProperty AMOUNT = IntegerProperty.create("segment_amount", 1, 4);
@@ -49,18 +47,14 @@ public class LeafLitterBlock extends BushBlock {
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(AMOUNT, 1));
     }
 
-    @Override
-    protected MapCodec<? extends BushBlock> codec() {
-        return CODEC;
-    }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING, AMOUNT);
     }
 
     @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return shapes.computeIfAbsent(state, s -> {
             VoxelShape shape = Shapes.empty();
             Direction dir = s.getValue(FACING);
@@ -68,13 +62,13 @@ public class LeafLitterBlock extends BushBlock {
                 shape = Shapes.or(shape, QUARTERS.get(dir));
                 dir = dir.getCounterClockWise();
             }
-            return shape.singleEncompassing();
+            return shape.isEmpty() ? shape : Shapes.create(shape.bounds());
         });
     }
 
     /** Needs a solid top face below it (so it can sit on stone, logs, slabs... not only dirt). */
     @Override
-    protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+    public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         BlockPos below = pos.below();
         return level.getBlockState(below).isFaceSturdy(level, below, Direction.UP);
     }
@@ -82,7 +76,7 @@ public class LeafLitterBlock extends BushBlock {
     // ---- Adding pieces ----
 
     @Override
-    protected boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
+    public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
         if (!context.isSecondaryUseActive() && context.getItemInHand().is(asItem()) && state.getValue(AMOUNT) < 4) {
             return true;
         }
@@ -99,12 +93,12 @@ public class LeafLitterBlock extends BushBlock {
     }
 
     @Override
-    protected BlockState rotate(BlockState state, Rotation rotation) {
+    public BlockState rotate(BlockState state, Rotation rotation) {
         return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
     }
 
     @Override
-    protected BlockState mirror(BlockState state, Mirror mirror) {
+    public BlockState mirror(BlockState state, Mirror mirror) {
         return rotate(state, mirror.getRotation(state.getValue(FACING)));
     }
 }

@@ -85,40 +85,36 @@ public final class ModBlocks {
             "poplar_fence", () -> new FenceBlock(wood(POPLAR_COLOR).strength(2.0F, 3.0F)));
 
     public static final ItemLikeEntry<FenceGateBlock> POPLAR_FENCE_GATE = ModRegistry.block(
-            "poplar_fence_gate", () -> new FenceGateBlock(ModWoodTypes.POPLAR,
-                    wood(POPLAR_COLOR).forceSolidOn().strength(2.0F, 3.0F)));
+            "poplar_fence_gate", () -> new FenceGateBlock(wood(POPLAR_COLOR).forceSolidOn().strength(2.0F, 3.0F), ModWoodTypes.POPLAR));
 
     public static final ItemLikeEntry<DoorBlock> POPLAR_DOOR = ModRegistry.block(
-            "poplar_door", () -> new DoorBlock(ModWoodTypes.POPLAR_SET,
-                    wood(POPLAR_COLOR).strength(3.0F).noOcclusion().pushReaction(PushReaction.DESTROY)) {});
+            "poplar_door", () -> new DoorBlock(wood(POPLAR_COLOR).strength(3.0F).noOcclusion().pushReaction(PushReaction.DESTROY), ModWoodTypes.POPLAR_SET) {});
 
     public static final ItemLikeEntry<TrapDoorBlock> POPLAR_TRAPDOOR = ModRegistry.block(
-            "poplar_trapdoor", () -> new TrapDoorBlock(ModWoodTypes.POPLAR_SET,
-                    wood(POPLAR_COLOR).strength(3.0F).noOcclusion().isValidSpawn((state, level, pos, type) -> false)) {});
+            "poplar_trapdoor", () -> new TrapDoorBlock(wood(POPLAR_COLOR).strength(3.0F).noOcclusion().isValidSpawn((state, level, pos, type) -> false), ModWoodTypes.POPLAR_SET) {});
 
     public static final ItemLikeEntry<PressurePlateBlock> POPLAR_PRESSURE_PLATE = ModRegistry.block(
-            "poplar_pressure_plate", () -> new PressurePlateBlock(ModWoodTypes.POPLAR_SET,
-                    wood(POPLAR_COLOR).forceSolidOn().noCollission().strength(0.5F).pushReaction(PushReaction.DESTROY)) {});
+            "poplar_pressure_plate", () -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING,
+                    wood(POPLAR_COLOR).forceSolidOn().noCollission().strength(0.5F).pushReaction(PushReaction.DESTROY), ModWoodTypes.POPLAR_SET) {});
 
-    // Wooden buttons stay pressed for 30 ticks (1.5 seconds).
+    // Wooden buttons stay pressed for 30 ticks (1.5 seconds), and arrows can press them.
     public static final ItemLikeEntry<ButtonBlock> POPLAR_BUTTON = ModRegistry.block(
-            "poplar_button", () -> new ButtonBlock(ModWoodTypes.POPLAR_SET, 30,
-                    BlockBehaviour.Properties.of().noCollission().strength(0.5F).pushReaction(PushReaction.DESTROY)) {});
+            "poplar_button", () -> new ButtonBlock(BlockBehaviour.Properties.of().noCollission().strength(0.5F).pushReaction(PushReaction.DESTROY),
+                    ModWoodTypes.POPLAR_SET, 30, true) {});
 
     // ---- Signs ----
     // Text and look come from the vanilla sign renderers, using
     // textures/entity/signs/poplar.png and textures/entity/signs/hanging/poplar.png.
 
     public static final ItemLikeEntry<StandingSignBlock> POPLAR_SIGN = ModRegistry.block(
-            "poplar_sign", () -> new StandingSignBlock(ModWoodTypes.POPLAR, sign(POPLAR_COLOR)));
+            "poplar_sign", () -> new StandingSignBlock(sign(POPLAR_COLOR), ModWoodTypes.POPLAR));
     // Wall versions drop the same item as the standing ones.
     public static final ItemLikeEntry<WallSignBlock> POPLAR_WALL_SIGN = ModRegistry.block(
-            "poplar_wall_sign", () -> new WallSignBlock(ModWoodTypes.POPLAR, sign(POPLAR_COLOR).dropsLike(POPLAR_SIGN.get())));
+            "poplar_wall_sign", () -> new WallSignBlock(sign(POPLAR_COLOR).dropsLike(POPLAR_SIGN.get()), ModWoodTypes.POPLAR));
     public static final ItemLikeEntry<CeilingHangingSignBlock> POPLAR_HANGING_SIGN = ModRegistry.block(
-            "poplar_hanging_sign", () -> new CeilingHangingSignBlock(ModWoodTypes.POPLAR, sign(POPLAR_COLOR)));
+            "poplar_hanging_sign", () -> new CeilingHangingSignBlock(sign(POPLAR_COLOR), ModWoodTypes.POPLAR));
     public static final ItemLikeEntry<WallHangingSignBlock> POPLAR_WALL_HANGING_SIGN = ModRegistry.block(
-            "poplar_wall_hanging_sign", () -> new WallHangingSignBlock(ModWoodTypes.POPLAR,
-                    sign(POPLAR_COLOR).dropsLike(POPLAR_HANGING_SIGN.get())));
+            "poplar_wall_hanging_sign", () -> new WallHangingSignBlock(sign(POPLAR_COLOR).dropsLike(POPLAR_HANGING_SIGN.get()), ModWoodTypes.POPLAR));
 
     // ---- Leaves and sapling ----
 
@@ -194,7 +190,7 @@ public final class ModBlocks {
 
     /** The vanilla full block these stairs or slabs are cut from, e.g. "red_wool" -> minecraft:red_wool. */
     public static Block vanillaBlock(String name) {
-        return BuiltInRegistries.BLOCK.get(ResourceLocation.withDefaultNamespace(name));
+        return BuiltInRegistries.BLOCK.get(new ResourceLocation(name));
     }
 
     /** Same as vanilla wool: guitar note block, hardness 0.8, wool sounds, burns. */

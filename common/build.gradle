@@ -1,12 +1,12 @@
-// Loader-independent code. Compiled against plain Minecraft (no Fabric, Forge or NeoForge)
+// Loader-independent code. Compiled against plain Minecraft (no Fabric or Forge)
 // so nothing loader-specific can sneak in. The loader modules compile these same sources.
 plugins {
     id 'multiloader-common'
-    id 'net.neoforged.moddev'
+    id 'net.neoforged.moddev.legacyforge'
 }
 
-neoForge {
-    neoFormVersion = neo_form_version
+legacyForge {
+    mcpVersion = minecraft_version
     parchment {
         minecraftVersion = parchment_minecraft
         mappingsVersion = parchment_version
@@ -16,6 +16,7 @@ neoForge {
 dependencies {
     compileOnly 'org.spongepowered:mixin:0.8.5'
     compileOnly 'org.ow2.asm:asm:9.7'
+    compileOnly 'com.google.code.findbugs:jsr305:3.0.1'
     compileOnly "com.github.glitchfiend:TerraBlender-common:${minecraft_version}-${terrablender_version}"
 }
 

@@ -1,7 +1,6 @@
 package com.buffsteve.autumnbackport.world;
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.List;
 import net.minecraft.Util;
@@ -17,7 +16,7 @@ import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorTy
  * (26.3 uses it for brown mushrooms on top of fallen poplar logs).
  */
 public class AttachedToLogsDecorator extends TreeDecorator {
-    public static final MapCodec<AttachedToLogsDecorator> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
+    public static final Codec<AttachedToLogsDecorator> CODEC = RecordCodecBuilder.create(i -> i.group(
             Codec.floatRange(0.0F, 1.0F).fieldOf("probability").forGetter(d -> d.probability),
             BlockStateProvider.CODEC.fieldOf("block_provider").forGetter(d -> d.provider),
             Direction.CODEC.listOf().fieldOf("directions").forGetter(d -> d.directions)

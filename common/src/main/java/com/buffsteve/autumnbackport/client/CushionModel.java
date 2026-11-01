@@ -15,7 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 
 /** The cushion's 3D shape: one 16x4x16 box. Same numbers as 26.3's CushionModel. */
 public class CushionModel extends Model {
-    public static final ModelLayerLocation LAYER = new ModelLayerLocation(ResourceLocation.withDefaultNamespace("cushion"), "main");
+    public static final ModelLayerLocation LAYER = new ModelLayerLocation(new ResourceLocation("cushion"), "main");
     private final ModelPart root;
 
     public CushionModel(ModelPart root) {
@@ -32,7 +32,8 @@ public class CushionModel extends Model {
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int light, int overlay, int color) {
-        root.render(poseStack, buffer, light, overlay, color);
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int light, int overlay,
+                               float red, float green, float blue, float alpha) {
+        root.render(poseStack, buffer, light, overlay, red, green, blue, alpha);
     }
 }

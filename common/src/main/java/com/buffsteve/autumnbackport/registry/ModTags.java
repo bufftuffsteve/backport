@@ -20,7 +20,7 @@ public final class ModTags {
         public static final TagKey<Block> REPLACEABLE_BY_MUSHROOMS = block("replaceable_by_mushrooms");
 
         private static TagKey<Block> block(String name) {
-            return TagKey.create(Registries.BLOCK, ResourceLocation.withDefaultNamespace(name));
+            return TagKey.create(Registries.BLOCK, new ResourceLocation(name));
         }
     }
 
@@ -35,7 +35,7 @@ public final class ModTags {
         public static final TagKey<Item> CUSHIONS = item("cushions");
 
         private static TagKey<Item> item(String name) {
-            return TagKey.create(Registries.ITEM, ResourceLocation.withDefaultNamespace(name));
+            return TagKey.create(Registries.ITEM, new ResourceLocation(name));
         }
     }
 

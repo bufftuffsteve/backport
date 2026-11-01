@@ -8,7 +8,8 @@ base {
 }
 
 java {
-    toolchain.languageVersion = JavaLanguageVersion.of(java_version)
+    // 1.20.1 targets Java 17. Pass -Pjava_toolchain=21 to build with a newer JDK (the jar still targets 17).
+    toolchain.languageVersion = JavaLanguageVersion.of(project.findProperty('java_toolchain') ?: java_version)
     withSourcesJar()
 }
 

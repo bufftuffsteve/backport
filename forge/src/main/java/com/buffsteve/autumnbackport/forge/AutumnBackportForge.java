@@ -35,8 +35,8 @@ public class AutumnBackportForge {
     /** Burn times by item, filled in once items exist. */
     private static Map<Item, Integer> burnTimes;
 
-    public AutumnBackportForge(FMLJavaModLoadingContext context) {
-        IEventBus modBus = context.getModEventBus();
+    public AutumnBackportForge() {
+        IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         AutumnBackport.init();
         ForgePlatform.attach(modBus);
 

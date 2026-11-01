@@ -1,6 +1,6 @@
 package com.buffsteve.autumnbackport.world;
 
-import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -24,7 +24,7 @@ import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
  * 1-4 short sideways branches in random directions, and the canopy is centred there.
  */
 public class PoplarTrunkPlacer extends TrunkPlacer {
-    public static final MapCodec<PoplarTrunkPlacer> CODEC = RecordCodecBuilder.mapCodec(instance ->
+    public static final Codec<PoplarTrunkPlacer> CODEC = RecordCodecBuilder.create(instance ->
             trunkPlacerParts(instance).and(instance.group(
                     IntProvider.codec(0, 8).fieldOf("trunk_height_above_branches").forGetter(p -> p.trunkHeightAboveBranches),
                     IntProvider.codec(1, 4).fieldOf("branch_amount").forGetter(p -> p.branchAmount)

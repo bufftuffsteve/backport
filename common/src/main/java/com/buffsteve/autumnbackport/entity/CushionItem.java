@@ -57,7 +57,7 @@ public class CushionItem extends Item {
                 return InteractionResult.FAIL; // one cushion per spot
             }
             Player player = context.getPlayer();
-            Cushion cushion = ModEntities.CUSHION.get().create(serverLevel,
+            Cushion cushion = ModEntities.CUSHION.get().create(serverLevel, null,
                     EntityType.createDefaultStackConfig(serverLevel, stack, player), pos, MobSpawnType.SPAWN_EGG, true, true);
             if (cushion == null) {
                 return InteractionResult.FAIL;
@@ -70,7 +70,9 @@ public class CushionItem extends Item {
             level.playSound(null, cushion.getX(), cushion.getY(), cushion.getZ(), SoundEvents.WOOL_PLACE, SoundSource.BLOCKS, 0.75F, 0.8F);
             cushion.gameEvent(GameEvent.ENTITY_PLACE, player);
         }
-        stack.consume(1, placeContext.getPlayer());
+        if (placeContext.getPlayer() == null || !placeContext.getPlayer().getAbilities().instabuild) {
+            stack.shrink(1);
+        }
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
 

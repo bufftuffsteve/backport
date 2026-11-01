@@ -1,6 +1,5 @@
 package com.buffsteve.autumnbackport.block;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -21,27 +20,22 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * Grows on dirt like grass. Bone meal spreads a new shrub to an empty spot next to it.
  */
 public class RedShrubBlock extends BushBlock implements BonemealableBlock {
-    public static final MapCodec<RedShrubBlock> CODEC = simpleCodec(RedShrubBlock::new);
     private static final VoxelShape SHAPE = Block.box(0, 0, 0, 16, 13, 16);
 
     public RedShrubBlock(Properties properties) {
         super(properties);
     }
 
-    @Override
-    protected MapCodec<? extends BushBlock> codec() {
-        return CODEC;
-    }
 
     @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
     // ---- Bone meal: spread to one free neighbouring spot ----
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, boolean isClient) {
         for (Direction direction : Direction.Plane.HORIZONTAL) {
             if (canSpreadTo(level, pos.relative(direction), state)) {
                 return true;

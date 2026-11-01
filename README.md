@@ -2,7 +2,7 @@
 
 # Wilderness Bound: Dappled Forest Backport
 
-A mod for NeoForge, Forge and Fabric that backports the autumn content from **Minecraft 26.3 "Wilderness Bound"** to **1.21.1**: the Dappled Forest biome, poplar wood, cushions, straw beds, shelf mushrooms and abandoned camps.
+A mod for Forge and Fabric that backports the autumn content from **Minecraft 26.3 "Wilderness Bound"** to **1.20.1**: the Dappled Forest biome, poplar wood, cushions, straw beds, shelf mushrooms and abandoned camps.
 
 Everything is registered under vanilla's own IDs (`minecraft:poplar_log`, `minecraft:dappled_forest`, ...), so worlds made with this mod keep their blocks when upgraded to 26.3.
 
@@ -17,24 +17,22 @@ Everything is registered under vanilla's own IDs (`minecraft:poplar_log`, `minec
 
 ## Requirements
 
-Minecraft 1.21.1, one of these loaders, and [TerraBlender](https://modrinth.com/mod/terrablender) 4.1.0.8 or newer (required on every loader).
+Minecraft 1.20.1, one of these loaders, and [TerraBlender](https://modrinth.com/mod/terrablender) 3.0.1.11 or newer (required on every loader).
 
 | Loader | Version | Also needs |
 | --- | --- | --- |
-| NeoForge | 21.1.250 or newer | |
-| Forge | 52.0.0 or newer | |
+| Forge | 47.1.0 or newer | |
 | Fabric | Loader 0.16.9 or newer | [Fabric API](https://modrinth.com/mod/fabric-api) |
 
-A 1.20.1 version for Forge and Fabric lives on the `1.20.1` branch.
+This is the `1.20.1` branch. The 1.21.1 version (NeoForge, Forge and Fabric) lives on `multiloader-1.21.1`.
 
 ## Building from source
 
-Requires JDK 21.
+Requires JDK 17 (Gradle downloads it if you don't have it).
 
 ```sh
-./gradlew build                 # all jars; each loader's ends up in <loader>/build/libs
-./gradlew :neoforge:runData     # regenerate models, recipes, loot tables, tags and worldgen into common/src/generated
-./gradlew :fabric:runClient     # launch a test game (also :forge:runClient, :neoforge:runClient)
+./gradlew build                 # both jars; each loader's ends up in <loader>/build/libs
+./gradlew :fabric:runClient     # launch a test game (also :forge:runClient)
 ./gradlew :fabric:prodServer    # run a real Fabric server with the finished jar
 ```
 
@@ -53,8 +51,17 @@ The mod is written once in `common` and wrapped by a small module per loader.
 | `common/src/main/java/.../mixin` | Small hooks into vanilla code, shared by all loaders |
 | `common/src/main/java/.../platform` | The few things each loader does its own way (registration, flower pots, the boat type) |
 | `common/src/main/resources` | Textures, hand-written models, camp structures and loot tables |
-| `common/src/generated/resources` | Output of `runData`. Don't edit by hand |
-| `neoforge/`, `forge/`, `fabric/` | Each loader's entry point, events and metadata. Data generators live in `neoforge/` |
+| `common/src/generated/resources` | Generated on the 1.21.1 branch, converted to 1.20.1. Don't edit by hand |
+| `forge/`, `fabric/` | Each loader's entry point, events and metadata |
+| `tools/convert_data_to_1.20.1.py` | Converts data files from the 1.21.1 branch to 1.20.1's formats |
+
+## Bringing changes over from 1.21.1
+
+There's no data generation on this branch. After changing generated data on `multiloader-1.21.1`, copy `common/src/generated/resources` (and any changed files in `common/src/main/resources`) over, then run:
+
+```sh
+python tools/convert_data_to_1.20.1.py common/src/main/resources common/src/generated/resources
+```
 
 ## Differences from 26.3
 
@@ -64,7 +71,8 @@ The mod is written once in `common` and wrapped by a small module per loader.
 - Fallen trees only generate when the whole log fits (no lone stumps)
 - Copper chests, lanterns and copper gear in camps are replaced with 1.21.1 equivalents
 - Placed boats become oak boats when a world is upgraded to 26.3
-- NeoForge saves poplar boats as `autumnbackport:poplar` and Forge/Fabric as `poplar`, so placed poplar boats don't carry over if a world switches between NeoForge and Forge/Fabric
+- 1.20.1 only: shelf mushrooms can't be used in suspicious stew (the vanilla red + brown mushroom recipe still works)
+- 1.20.1 only: the secret chest's trial chambers map is left out, and maps whose icon 1.20.1 lacks use the red X
 
 ## License
 
