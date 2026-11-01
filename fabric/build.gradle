@@ -1,0 +1,55 @@
+plugins {
+    id 'multiloader-loader'
+    id 'fabric-loom'
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    mappings loom.layered {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-${parchment_minecraft}:${parchment_version}@zip")
+    }
+    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+    modImplementation "com.github.glitchfiend:TerraBlender-fabric:${minecraft_version}-${terrablender_version}"
+}
+
+loom {
+    mixin {
+        defaultRefmapName.set("${mod_id}.refmap.json")
+    }
+    runs {
+        client {
+            client()
+            setConfigName('Fabric Client')
+            ideConfigGenerated(true)
+            runDir('runs/client')
+        }
+        server {
+            server()
+            setConfigName('Fabric Server')
+            ideConfigGenerated(true)
+            runDir('runs/server')
+        }
+    }
+}
+
+// "gradlew :fabric:prodServer" runs a real Fabric server with the finished jar (not the dev setup),
+// to catch problems that only show up outside the development environment.
+configurations {
+    prodServerMods { transitive = false }
+}
+
+dependencies {
+    prodServerMods "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+    prodServerMods "com.github.glitchfiend:TerraBlender-fabric:${minecraft_version}-${terrablender_version}"
+}
+
+tasks.register('prodServer', net.fabricmc.loom.task.prod.ServerProductionRunTask) {
+    mods.from(tasks.named('remapJar'))
+    mods.from(configurations.prodServerMods)
+    loaderVersion = fabric_loader_version
+    minecraftVersion = minecraft_version
+    runDir = file('runs/prodserver')
+    programArgs.add('nogui')
+}

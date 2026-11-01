@@ -2,7 +2,7 @@
 
 # Wilderness Bound: Dappled Forest Backport
 
-A NeoForge mod that backports the autumn content from **Minecraft 26.3 "Wilderness Bound"** to **1.21.1**: the Dappled Forest biome, poplar wood, cushions, straw beds, shelf mushrooms and abandoned camps.
+A mod for NeoForge, Forge and Fabric that backports the autumn content from **Minecraft 26.3 "Wilderness Bound"** to **1.21.1**: the Dappled Forest biome, poplar wood, cushions, straw beds, shelf mushrooms and abandoned camps.
 
 Everything is registered under vanilla's own IDs (`minecraft:poplar_log`, `minecraft:dappled_forest`, ...), so worlds made with this mod keep their blocks when upgraded to 26.3.
 
@@ -17,35 +17,44 @@ Everything is registered under vanilla's own IDs (`minecraft:poplar_log`, `minec
 
 ## Requirements
 
-| | Version |
-| --- | --- |
-| Minecraft | 1.21.1 |
-| NeoForge | 21.1.265 or newer |
-| [TerraBlender](https://modrinth.com/mod/terrablender) | 4.1.0.8 or newer (required) |
+Minecraft 1.21.1, one of these loaders, and [TerraBlender](https://modrinth.com/mod/terrablender) 4.1.0.8 or newer (required on every loader).
+
+| Loader | Version | Also needs |
+| --- | --- | --- |
+| NeoForge | 21.1.250 or newer | |
+| Forge | 52.0.0 or newer | |
+| Fabric | Loader 0.16.9 or newer | [Fabric API](https://modrinth.com/mod/fabric-api) |
+
+A 1.20.1 version for Forge and Fabric lives on the `1.20.1` branch.
 
 ## Building from source
 
 Requires JDK 21.
 
 ```sh
-./gradlew runData    # regenerate models, recipes, loot tables, tags and worldgen into src/generated
-./gradlew build      # the mod jar ends up in build/libs
-./gradlew runClient  # launch a test game
+./gradlew build                 # all jars; each loader's ends up in <loader>/build/libs
+./gradlew :neoforge:runData     # regenerate models, recipes, loot tables, tags and worldgen into common/src/generated
+./gradlew :fabric:runClient     # launch a test game (also :forge:runClient, :neoforge:runClient)
+./gradlew :fabric:prodServer    # run a real Fabric server with the finished jar
 ```
 
 On Windows use `gradlew.bat`, or run the same tasks from IntelliJ's Gradle panel.
 
 ## Project layout
 
+The mod is written once in `common` and wrapped by a small module per loader.
+
 | Path | Contents |
 | --- | --- |
-| `src/main/java/.../block` | Custom blocks: shelf mushroom, red shrub, straw bed, leaf litter, poplar leaves and sapling |
-| `src/main/java/.../entity` | The cushion entity and item |
-| `src/main/java/.../world` | Poplar tree shapes, tree decorations, fallen trees, the Dappled Forest biome and its TerraBlender region |
-| `src/main/java/.../registry` | Block, item, entity and other registrations |
-| `src/main/java/.../datagen` | Data generators (run with `runData`) |
-| `src/main/resources` | Textures, hand-written models, camp structures and loot tables |
-| `src/generated/resources` | Output of `runData`. Don't edit by hand |
+| `common/src/main/java/.../block` | Custom blocks: shelf mushroom, red shrub, straw bed, leaf litter, poplar leaves and sapling |
+| `common/src/main/java/.../entity` | The cushion entity and item |
+| `common/src/main/java/.../world` | Poplar tree shapes, tree decorations, fallen trees, the Dappled Forest biome and its TerraBlender region |
+| `common/src/main/java/.../registry` | Block, item, entity and other registrations, plus creative tabs, trades and other game rules |
+| `common/src/main/java/.../mixin` | Small hooks into vanilla code, shared by all loaders |
+| `common/src/main/java/.../platform` | The few things each loader does its own way (registration, flower pots, the boat type) |
+| `common/src/main/resources` | Textures, hand-written models, camp structures and loot tables |
+| `common/src/generated/resources` | Output of `runData`. Don't edit by hand |
+| `neoforge/`, `forge/`, `fabric/` | Each loader's entry point, events and metadata. Data generators live in `neoforge/` |
 
 ## Differences from 26.3
 
@@ -54,9 +63,9 @@ On Windows use `gradlew.bat`, or run the same tasks from IntelliJ's Gradle panel
 - New 26.3 sounds use the closest 1.21.1 sounds
 - Fallen trees only generate when the whole log fits (no lone stumps)
 - Copper chests, lanterns and copper gear in camps are replaced with 1.21.1 equivalents
-- Only the Dappled Forest's camps are included so far
 - Placed boats become oak boats when a world is upgraded to 26.3
+- NeoForge saves poplar boats as `autumnbackport:poplar` and Forge/Fabric as `poplar`, so placed poplar boats don't carry over if a world switches between NeoForge and Forge/Fabric
 
 ## License
 
-All rights reserved. See `gradle.properties` (`mod_license`).
+MIT, so anyone can use this mod's content in their own projects. See `LICENSE`.

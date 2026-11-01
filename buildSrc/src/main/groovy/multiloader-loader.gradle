@@ -1,0 +1,36 @@
+// Settings for the loader modules: they compile the common code and ship the common resources.
+plugins {
+    id 'multiloader-common'
+}
+
+configurations {
+    commonJava { canBeResolved = true }
+    commonResources { canBeResolved = true }
+}
+
+dependencies {
+    compileOnly(project(':common'))
+    commonJava project(path: ':common', configuration: 'commonJava')
+    commonResources project(path: ':common', configuration: 'commonResources')
+}
+
+tasks.named('compileJava', JavaCompile) {
+    dependsOn(configurations.commonJava)
+    source(configurations.commonJava)
+}
+
+processResources {
+    dependsOn(configurations.commonResources)
+    from(configurations.commonResources)
+    // NeoForge-only data (data maps) is harmless elsewhere, but keep the other jars clean.
+    if (project.name != 'neoforge') {
+        exclude('data/neoforge/**')
+    }
+}
+
+tasks.named('sourcesJar', Jar) {
+    dependsOn(configurations.commonJava, configurations.commonResources)
+    from(configurations.commonJava)
+    from(configurations.commonResources)
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}

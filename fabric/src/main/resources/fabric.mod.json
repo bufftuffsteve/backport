@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${version}",
+  "name": "${mod_name}",
+  "description": "${description}",
+  "authors": ["${mod_author}"],
+  "license": "${license}",
+  "icon": "autumnbackport_logo.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["com.buffsteve.autumnbackport.fabric.AutumnBackportFabric"],
+    "client": ["com.buffsteve.autumnbackport.fabric.AutumnBackportFabricClient"],
+    "terrablender": ["com.buffsteve.autumnbackport.fabric.AutumnBackportTerraBlender"]
+  },
+  "mixins": [
+    "${mod_id}.mixins.json",
+    "${mod_id}.boats.mixins.json",
+    "${mod_id}.fabric.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${fabric_loader_min}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}",
+    "terrablender": "*",
+    "java": ">=${java_version}"
+  }
+}
