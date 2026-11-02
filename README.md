@@ -24,7 +24,7 @@ Minecraft 1.20.1, one of these loaders, and [TerraBlender](https://modrinth.com/
 | Forge | 47.1.0 or newer | |
 | Fabric | Loader 0.16.9 or newer | [Fabric API](https://modrinth.com/mod/fabric-api) |
 
-This is the `1.20.1` branch. The 1.21.1 version (NeoForge, Forge and Fabric) lives on `multiloader-1.21.1`.
+This is the `1.20.1` branch. The 1.21.1 version (NeoForge, Forge and Fabric) lives on `main`.
 
 ## Building from source
 
@@ -57,7 +57,7 @@ The mod is written once in `common` and wrapped by a small module per loader.
 
 ## Bringing changes over from 1.21.1
 
-There's no data generation on this branch. After changing generated data on `multiloader-1.21.1`, copy `common/src/generated/resources` (and any changed files in `common/src/main/resources`) over, then run:
+There's no data generation on this branch. After changing generated data on `main`, copy `common/src/generated/resources` (and any changed files in `common/src/main/resources`) over, then run:
 
 ```sh
 python tools/convert_data_to_1.20.1.py common/src/main/resources common/src/generated/resources
